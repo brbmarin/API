@@ -35,26 +35,3 @@ public class Program
         app.Run();
     }
 }
-
-
-// using System.Linq;
-// using newWebAPI.models;
-
-// using var db = new AppDbContext();
-
-// // Demande que la base de donnée soit créé avant l'exécution du programme 
-// Console.WriteLine($"Database path: {db.DbPath}.");
-
-// // Créer un nouveau livre
-// Console.WriteLine("Insérer un nouveau libre");
-// db.Add(new Book { Title = "Les Misérables"});
-// //db.SaveChanges();
-
-// // Lire le livre
-// Console.WriteLine("Rechercher un livre");
-// var Book = db.Books
-//     .OrderBy(b => b.BookId);
-
-// // Modifier un livre
-// Console.WriteLine("Modifier un livre");
-// Book.Title = "Les misérables (modifié)";
