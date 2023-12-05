@@ -14,7 +14,7 @@ public class Bookcontroller: ControllerBase
    // Les variables privé ont un "_" en prefix
    private readonly AppDbContext _context;
 
-   Bookcontroller(AppDbContext context)
+   public Bookcontroller(AppDbContext context)
    {
       _context = context;
    }

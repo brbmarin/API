@@ -9,7 +9,7 @@ public class AppDbContext : DbContext
    public string DbPath { get; }
    public AppDbContext()
    {
-      DbPath="DbBooks.db";
+      DbPath="Books.db";
    }
 
    // Configuration du chemin
