@@ -1,9 +1,8 @@
 using System.Net;
-using System.Runtime.Serialization;
-using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using newWebAPI.Models;
+
 namespace newWebAPI.Controllers;
 
 // Indique que cette classe est un controlleur d'API
