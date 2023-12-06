@@ -1,3 +1,6 @@
+using System.Net;
+using System.Runtime.Serialization;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using newWebAPI.Models;
@@ -44,29 +47,68 @@ public class Bookcontroller: ControllerBase
    [ProducesResponseType(400)]
    public async Task<ActionResult<Book>> PostBook([FromBody] Book book)
    {
-      // we check if the parameter is null
+      // On vérifie si les paramètres sont vide
       if (book == null)
       {
          return BadRequest();
       }
-      // we check if the book already exists
+
+      // On vérifie si le livre existe déjà
       Book? addedBook = await _context.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+      
       if (addedBook != null)
       {
          return BadRequest("Book already exists");
       }
       else
       {
-         // we add the book to the database
+         // On ajoute le livre à la base de donnée
          await _context.Books.AddAsync(book);
          await _context.SaveChangesAsync();
 
-         // we return the book
+         // On retourne le livre
          return CreatedAtRoute(
             routeName: nameof(GetBook),
             routeValues: new { id = book.Id },
             value: book);
-
       }
    }
+
+   // PUT: api/Book/[id]
+   [HttpPut("{id}")]
+   public async Task<ActionResult<Book>> Put(int id, [FromBody] BookUpdate updatedBook)
+   {
+      if (updatedBook == null)
+      {
+         return BadRequest("Invalid book data");
+      }
+ 
+      var existingBook = await _context.Books.FindAsync(id);
+ 
+      if (existingBook == null)
+      {
+         return NotFound("Book not found");
+      }
+ 
+      existingBook.Price = updatedBook.Price;
+      existingBook.Description = updatedBook.Description;
+      existingBook.Remarks = updatedBook.Remarks;
+ 
+      try
+      {
+         await _context.SaveChangesAsync();
+         return Ok(existingBook);
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+         return StatusCode(500, "Concurrency conflict occurred");
+      }
+   }
+}
+
+public class BookUpdate
+{
+    public decimal Price { get; internal set; }
+    public string? Description { get; internal set; }
+    public string? Remarks { get; internal set; }
 }
