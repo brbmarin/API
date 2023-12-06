@@ -76,7 +76,7 @@ public class Bookcontroller: ControllerBase
 
    // PUT: api/Book/[id]
    [HttpPut("{id}")]
-   public async Task<ActionResult<Book>> Put(int id, [FromBody] BookUpdate updatedBook)
+   public async Task<ActionResult<Book>> PutBook(int id, [FromBody] BookUpdate updatedBook)
    {
       if (updatedBook == null)
       {
@@ -104,7 +104,25 @@ public class Bookcontroller: ControllerBase
          return StatusCode(500, "Concurrency conflict occurred");
       }
    }
+
+   // DELETE: api/Book/[id]
+   [HttpDelete("{id}")]
+   public async Task<IActionResult> DeleteBook(int id)
+   {
+      var book = await _context.Books.FindAsync(id);
+      if (book == null)
+      {
+         return NotFound();
+      }
+
+      _context.Books.Remove(book);
+      await _context.SaveChangesAsync();
+
+      return NoContent();
+   }
 }
+
+
 
 public class BookUpdate
 {
