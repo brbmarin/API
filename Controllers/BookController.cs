@@ -1,9 +1,12 @@
 using System.Net;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using newWebAPI.Models;
 
 namespace newWebAPI.Controllers;
+
+#nullable disable
 
 // Indique que cette classe est un controlleur d'API
 [ApiController]
@@ -53,7 +56,7 @@ public class Bookcontroller: ControllerBase
       }
 
       // On vérifie si le livre existe déjà
-      Book? addedBook = await _context.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+      Book addedBook = await _context.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
       
       if (addedBook != null)
       {
@@ -121,12 +124,18 @@ public class Bookcontroller: ControllerBase
    }
 
    // TODO: utilisez des annotations pour valider les donnees entrantes avec ModelState
+
    // TODO: utilisez le package AutoMapper pour mapper les donnees de BookUpdateDTO vers Book
+   private readonly IMapper _mapper;
+   public Bookcontroller(IMapper mapper) => _mapper = mapper;
 }
 
 public class BookUpdate
 {
-    public decimal Price { get; internal set; }
-    public string? Description { get; internal set; }
-    public string? Remarks { get; internal set; }
+   public decimal Price { get; internal set; }
+   public string Description { get; internal set; }
+   public string Remarks { get; internal set; }
 }
+
+
+

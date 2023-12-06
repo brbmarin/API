@@ -1,4 +1,6 @@
 
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using newWebAPI.Models;
 
 namespace api;
@@ -12,6 +14,11 @@ public class Program
         // Add services to the container.
         builder.Services.AddDbContext<AppDbContext>();
         builder.Services.AddControllers();
+
+        // Configuration Auto Mapper 
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
