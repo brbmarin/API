@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using newWebAPI.Models;
+using newWebAPI.Models.DTOs;
 
 namespace newWebAPI.Controllers;
 
@@ -16,6 +17,13 @@ public class Bookcontroller: ControllerBase
 {
    // Les variables privé ont un "_" en prefix
    private readonly AppDbContext _context;
+
+   private readonly IMapper _mapper;
+
+   public Bookcontroller(IMapper mapper)
+   {
+      _mapper = mapper;
+   }
 
    public Bookcontroller(AppDbContext context)
    {
@@ -124,8 +132,20 @@ public class Bookcontroller: ControllerBase
    }
 
    // Auto mapper 
-   private readonly IMapper _mapper;
-   public Bookcontroller(IMapper mapper) => _mapper = mapper;
+   // private readonly IMapper _mapper;
+   // public Bookcontroller(IMapper mapper) => _mapper = mapper;
+
+   [HttpGet]
+   [Route("GetBookWithMapping")]
+   public async Task<ActionResult<Book>> GetBookWithMapping(int id)
+   {
+      var book = await _mapper.Map<IEnumerable<Book>, IEnumerable<BookUpdateDTO>>.ToListAsync();
+      if (book == null)
+      {
+         return NotFound();
+      }
+      return book;
+   }
 }
 
 public class BookUpdate

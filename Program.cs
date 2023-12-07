@@ -16,7 +16,7 @@ public class Program
         builder.Services.AddControllers();
 
         // Configuration Auto Mapper 
-        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddAutoMapper(typeof(ConfigurationMapping).Assembly);
 
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
