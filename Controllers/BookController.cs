@@ -123,9 +123,7 @@ public class Bookcontroller: ControllerBase
       return NoContent();
    }
 
-   // TODO: utilisez des annotations pour valider les donnees entrantes avec ModelState
-
-   // TODO: utilisez le package AutoMapper pour mapper les donnees de BookUpdateDTO vers Book
+   // Auto mapper 
    private readonly IMapper _mapper;
    public Bookcontroller(IMapper mapper) => _mapper = mapper;
 }
